@@ -15,7 +15,7 @@ export class ProfilePage {
   cliente: ClienteDTO;
 
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     public storage: StorageService,
     public clienteService: ClienteService) {
@@ -23,22 +23,30 @@ export class ProfilePage {
 
   ionViewDidLoad() {
     let localUser = this.storage.getLocalUser();
-    if(localUser && localUser.email){
-     this.clienteService.findByEmail(localUser.email)
-      .subscribe(response => {
-        this.cliente = response;
-        this.getImageIfExist();
-      },
-      error => {});
+    if (localUser && localUser.email) {
+      this.clienteService.findByEmail(localUser.email)
+        .subscribe(response => {
+          this.cliente = response;
+          this.getImageIfExist();
+        },
+          error => {
+            if (error.status == 403) {
+              this.navCtrl.setRoot('HomePage');
+
+            }
+          });
+    }
+    else {
+      this.navCtrl.setRoot('HomePage');
     }
   }
 
   getImageIfExist() {
     this.clienteService.getImageFromBucket(this.cliente.id)
-    .subscribe(response => {
-      this.cliente.imageUrl = `${API_CONFIG.bucketBaseUrl}/cp${this.cliente.id}.jpg`;
+      .subscribe(response => {
+        this.cliente.imageUrl = `${API_CONFIG.bucketBaseUrl}/cp${this.cliente.id}.jpg`;
       },
-      
-      error => {});
+
+        error => {});
   }
 }
