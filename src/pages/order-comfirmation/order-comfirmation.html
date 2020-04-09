@@ -15,7 +15,7 @@
     </ion-card-header>
 
     <ion-list>
-      <ion-item *ngFor="let item of cartItems">
+      <ion-item *ngFor = "let item of cartItems">
         <ion-thumbnail item-start>
           <img [src]="item.produto.imageUrl || 'assets/imgs/prod.jpg'">
         </ion-thumbnail>
@@ -67,4 +67,6 @@
       <h3>Pagamento com boleto</h3>
     </ion-item>
   </ion-card>
+  <button ion-button block (click)="checkout()">Confirmar pedido</button>
+  <button ion-button block outline (click)="back()">Voltar</button>
 </ion-content>
