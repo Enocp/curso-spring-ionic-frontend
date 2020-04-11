@@ -11,9 +11,9 @@ import { API_CONFIG } from '../../config/api.config';
 })
 export class ProdutosPage {
 
-  items: ProdutoDTO[] = [];
-  page: number = 0;
-
+  items : ProdutoDTO[] = [];
+  page : number = 0;
+  
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -28,7 +28,9 @@ export class ProdutosPage {
   loadData() {
     let categoria_id = this.navParams.get('categoria_id');
     let loader = this.presentloading();
-    this.produtoService.findByCategoria(categoria_id, this.page,10)
+   // this.produtoService.findByCategoria(categoria_id, this.page, 10)
+       this.produtoService.findByCategoria(categoria_id)
+
       .subscribe(response => {
         let start = this.items.length;
         this.items = this.items.concat(response['content']);
